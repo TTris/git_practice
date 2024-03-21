@@ -133,12 +133,14 @@ bird_group.add(bird)
 
 bird_down_speed = 0.5
 
-
 pipe_img = pygame.image.load("img/pipe.png")
 flip_pipe_img = pygame.transform.flip(pipe_img, False, True)
 
 pipe_speed = 4
 pipe_group = pygame.sprite.Group()
+
+restart_img = pygame.image.load("img/restart.png")
+
 
 score = 0
 score_font = pygame.font.Font("微軟正黑體.ttf", 50)
@@ -146,7 +148,7 @@ score_font = pygame.font.Font("微軟正黑體.ttf", 50)
 def create_pipe(last_pipe_time, pipe_frequency, pipe_group):
     now = pygame.time.get_ticks()
     random_height = random.randint(-120, 80)
-    if now - last_pipe_time > pipe_frequency:
+    if now - last_pipe_time >= pipe_frequency:
         pipe_btm = Pipe(SCREEN_WIDTH, SCREEN_HEIGHT / 2 + random_height, pipe_img, False)
         pipe_top = Pipe(SCREEN_WIDTH, SCREEN_HEIGHT / 2 + random_height , flip_pipe_img, True)
         pipe_group.add(pipe_btm)
@@ -157,19 +159,26 @@ def create_pipe(last_pipe_time, pipe_frequency, pipe_group):
 
 def draw_score():
     score_text = score_font.render(str(score), True, WHITE)
-    window.blit(score_text, (SCREEN_WIDTH/2, 20))
+    window.blit(score_text, (SCREEN_WIDTH/2-score_text.get_width()/2, 20))
+
 
 run = True
 game_over = False
 
 while run:
     clock.tick(FPS)
-
     # 取得輸入
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE and game_over:
+                game_over = False
+                score = 0
+                last_pipe_time = pygame.time.get_ticks() - pipe_frequency
+                bird.reset()
+                for pipe in pipe_group.sprites():
+                    pipe.kill()
 
 
     #遊戲更新
@@ -184,6 +193,7 @@ while run:
             if first_pipe.rect.right < bird.rect.left:
                 score += 1
                 first_pipe.bird_pass = True
+
 
         ground_x -= ground_speed
         if ground_x < -100:
@@ -205,6 +215,8 @@ while run:
     pipe_group.draw(window)
     window.blit(ground_img, (ground_x, ground_top))
     draw_score()
+    if game_over:
+        window.blit(restart_img, (SCREEN_WIDTH / 2 - restart_img.get_width()/2, SCREEN_HEIGHT / 2 - restart_img.get_height()/2))
     pygame.display.update()
 
 

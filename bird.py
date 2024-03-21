@@ -39,12 +39,15 @@ class Bird(pygame.sprite.Sprite):
             self.rect.center = (self.x, self.y)
         if self.rect.bottom > ground_top:
             self.rect.bottom = ground_top
-
         if end:
             self.image = pygame.transform.rotate(self.imgs[0], 270)
 
-
-
+    def reset(self):
+        self.img_index = 0
+        self.image = self.imgs[self.img_index]
+        self.rect.center = (self.x, self.y)
+        self.last_pic_time = pygame.time.get_ticks()
+        self.speedy = 0
 
 
 
