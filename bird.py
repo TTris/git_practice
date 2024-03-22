@@ -42,7 +42,6 @@ class Bird(pygame.sprite.Sprite):
 
 
     def reset(self):
-        self.rect.center = (self.x, self.y)
         self.last_pic_time = pygame.time.get_ticks()
 
 
