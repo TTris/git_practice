@@ -144,6 +144,8 @@ restart_img = pygame.image.load("img/restart.png")
 
 score = 0
 score_font = pygame.font.Font("微軟正黑體.ttf", 50)
+message_font = pygame.font.Font("微軟正黑體.ttf", 20)
+
 
 def create_pipe(last_pipe_time, pipe_frequency, pipe_group):
     now = pygame.time.get_ticks()
@@ -162,8 +164,10 @@ def draw_score():
     window.blit(score_text, (SCREEN_WIDTH/2-score_text.get_width()/2, 20))
 
 
+
 run = True
 game_over = False
+
 
 while run:
     clock.tick(FPS)
@@ -181,8 +185,9 @@ while run:
                     pipe.kill()
 
 
+
     #遊戲更新
-    bird_group.update(bird_down_speed, game_over, ground_top)
+    bird_group.update(bird_down_speed, ground_top)
 
     if not game_over:
         pipe_group.update(pipe_speed)
@@ -205,8 +210,7 @@ while run:
             or bird.rect.top <= 0 \
             or bird.rect.bottom >= ground_top:
         game_over = True
-
-
+        bird.image = pygame.transform.rotate(bird.imgs[0], 270)
 
 
     #畫面顯示
@@ -217,6 +221,8 @@ while run:
     draw_score()
     if game_over:
         window.blit(restart_img, (SCREEN_WIDTH / 2 - restart_img.get_width()/2, SCREEN_HEIGHT / 2 - restart_img.get_height()/2))
+        message_text = message_font.render("請先狂點滑鼠  讓鳥飛起來  再按空白鍵", True, WHITE)
+        window.blit(message_text, (SCREEN_WIDTH / 2 - restart_img.get_width()/2 -23, SCREEN_HEIGHT / 2 - restart_img.get_height()/2 + 75))
     pygame.display.update()
 
 
