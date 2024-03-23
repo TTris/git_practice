@@ -179,7 +179,6 @@ while run:
                 game_over = False
                 score = 0
                 last_pipe_time = pygame.time.get_ticks() - pipe_frequency
-                bird.x = 100
                 bird.y = 100
                 bird.reset()
                 for pipe in pipe_group.sprites():
@@ -211,6 +210,7 @@ while run:
             or bird.rect.bottom >= ground_top:
         game_over = True
         bird.image = pygame.transform.rotate(bird.imgs[0], 270)
+        
 
 
     #畫面顯示
