@@ -53,7 +53,7 @@
 #
 # new_score_dic = {"考試"+key:value for key, value in score_dic.items() if value > 60}
 # print(new_score_dic)
-import pandas as pd
+# import pandas as pd
 
 #======================below is test 1==================================================
 
@@ -103,6 +103,84 @@ import pandas as pd
 # # 混用
 # print(data[["姓名","身高"]][0:3])
 # print(data[4:][["姓名","年紀"]])
+
+
+
 #========================================================================
+# 資料篩選
+# import pandas
+# data = pd.read_csv("data.csv")  # 用 pd.read 來讀取
+#
+# # 取得列後，可轉換成list及dictionary；但取得列後，不能轉換成list，只能轉成dictionary
+# # print(data["姓名"].to_list()) # 轉換成列表
+# # print(data[:5].to_dict())    # 轉換成字典
+# # print(data[:3].to_list())    # 取得行 轉list會出現錯誤
+#
+# # 篩選
+# print(data[data["性別"]=="男"])
+# print(data[data["身高"]>160])
+#
+# print(data[(data["身高"]>160) & (data["性別"]=="男") & (data["年紀"]>30)])  # & = and
+# print(data[(data["身高"]>160) | (data["性別"]=="男")])                     # | = or. "\"+shift
+#
+# # 排序
+# print(data[(data["身高"]>160) | (data["性別"]=="男")].sort_values(by="年紀", ascending=False))
+# print(data[:5].sort_values(by="身高"))
+# print(data["身高"].sort_values())
+#
+# # 輸出
+# new_data = (data[(data["身高"]>160) | (data["性別"]=="男")].sort_values(by="年紀", ascending=False))
+# #               "要輸出的檔名",                       ,輸出時第一列顯示原資料的行數
+# new_data.to_csv("new_data.csv", encoding="utf_8_sig", index=False)
+
+#================================below is test 2========================================
+# import pandas
+# data = pd.read_csv("data.csv")
+# practice_data = data[(data["性別"]=="男") & (data["體重"]>60)].sort_values(by="年紀", ascending=False)
+# practice_data.to_csv("test2.cvs", encoding="utf_8_sig", index=False)
+
+#========================================================================
+# 計算、分組
+# import pandas
+# data = pd.read_csv("data.csv")
+
+# # 可直接對data做計算，不會改動原始表格
+# print(data["身高"]/100)
+# print(data["身高"]+1)
+#
+# # 可覆蓋後續呼叫的data, 不會改動原始表格
+# data["身高"] = data["身高"]/100
+# data["性別"] += "性"
+# print(data)
+#
+# # 專換一整列的資料型態 .astype
+# # data["身高"] = data["身高"].astype(str)
+# # data["身高"] += "公尺"
+# # print(data)
+#
+# # 創建列
+# data["BMI"] = round(data["體重"] / data["身高"]**2, 2)
+# print(data)
+
+
+# 分組
+# print(data.groupby("性別"))
+# print(data.groupby("性別").max())
+# print(data.groupby("性別")["身高"].max())
+# print(data.groupby("性別")[["身高","年紀"]].max())
+# print(data.groupby("性別")[["身高","年紀"]].mean())
+# print(data.groupby("性別")[["身高","年紀"]].sum())
+
+#=============below is project 17===========================================================
+import pandas as pd
+data = pd.read_csv("college.csv")
+p17_data = data.groupby("學校名稱")[["在學學生數小計","在學學生數男","在學學生數女"]].sum()
+p17_data["男生比"] = (round(p17_data["在學學生數男"] / p17_data["在學學生數小計"] * 100, 2)).astype(int).astype(str) + "%"
+p17_data["女生比"] = (round(p17_data["在學學生數女"] / p17_data["在學學生數小計"] * 100, 2)).astype(int).astype(str) + "%"
+p17_data = p17_data.sort_values(by="女生比",ascending=False)
+p17_data.to_csv("Project 17", encoding="utf_8_sig")
+
+
+
 
 
