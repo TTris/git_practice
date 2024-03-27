@@ -20,7 +20,7 @@
 # import email.message
 #
 # my_email = "tristatsai725@gmail.com"
-# password = "vqhsumkyegyiiamt"
+# password = ""
 #
 # msg = email.message.EmailMessage()
 # msg["From"] = my_email
@@ -42,7 +42,7 @@
 # import time
 #
 # my_email = "tristatsai725@gmail.com"
-# password = "vqhsumkyegyiiamt"
+# password = ""
 #
 # mail_no = 1
 #
@@ -91,7 +91,7 @@ tem = int(res.json()["records"]["location"][0]["weatherElement"][2]["time"][0]["
 
 
 my_email = "tristatsai725@gmail.com"
-password = "vqhsumkyegyiiamt"
+password = ""
 
 
 
